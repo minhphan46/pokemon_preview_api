@@ -19,12 +19,14 @@ namespace PokemonPreview.Repository
 
         public bool CreateReviewer(Reviewer reviewer)
         {
-            throw new NotImplementedException();
+            _context.Add(reviewer);
+            return Save();
         }
 
         public bool DeleteReviewer(Reviewer reviewer)
         {
-            throw new NotImplementedException();
+            _context.Remove(reviewer);
+            return Save();
         }
 
         public Reviewer GetReviewer(int reviewerId)
@@ -49,12 +51,14 @@ namespace PokemonPreview.Repository
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool UpdateReviewer(Reviewer reviewer)
         {
-            throw new NotImplementedException();
+            _context.Update(reviewer);
+            return Save();
         }
     }
 }

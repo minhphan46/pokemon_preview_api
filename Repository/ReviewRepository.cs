@@ -18,17 +18,20 @@ namespace PokemonPreview.Repository
 
         public bool CreateReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Add(review);
+            return Save();
         }
 
         public bool DeleteReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Remove(review);
+            return Save();
         }
 
         public bool DeleteReviews(List<Review> reviews)
         {
-            throw new NotImplementedException();
+            _context.RemoveRange(reviews);
+            return Save();
         }
 
         public Review GetReview(int reviewId)
@@ -53,12 +56,14 @@ namespace PokemonPreview.Repository
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool UpdateReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Update(review);
+            return Save();
         }
     }
 }

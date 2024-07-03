@@ -1,4 +1,5 @@
 ﻿using PokemonPreview.Data;
+using PokemonPreview.Dto;
 using PokemonPreview.Interfaces;
 using PokemonPreview.Models;
 
@@ -8,18 +9,41 @@ namespace PokemonPreview.Repository
     {
         private readonly DataContext _context;
 
-        public PokemonRepository(DataContext context) {
+        public PokemonRepository(DataContext context)
+        {
             _context = context;
         }
 
         public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
         {
-            throw new NotImplementedException();
+            var pokemonOwnerEntity = _context.Owners.Where(a => a.Id == ownerId).FirstOrDefault();
+            var category = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
+
+            var pokemonOwner = new PokemonOwner()
+            {
+                Owner = pokemonOwnerEntity,
+                Pokemon = pokemon,
+            };
+
+            _context.Add(pokemonOwner);
+
+            var pokemonCategory = new PokemonCategory()
+            {
+                Category = category,
+                Pokemon = pokemon,
+            };
+
+            _context.Add(pokemonCategory);
+
+            _context.Add(pokemon);
+
+            return Save();
         }
 
         public bool DeletePokemon(Pokemon pokemon)
         {
-            throw new NotImplementedException();
+            _context.Remove(pokemon);
+            return Save();
         }
 
         public Pokemon? GetPokemon(int id)
@@ -36,7 +60,7 @@ namespace PokemonPreview.Repository
         {
             var review = _context.Reviews.Where(p => p.Pokemon.Id == pokeId);
 
-            if(review.Count() <= 0)
+            if (review.Count() <= 0)
             {
                 return 0;
             }
@@ -49,6 +73,12 @@ namespace PokemonPreview.Repository
             return _context.Pokemons.OrderBy(p => p.Id).ToList();
         }
 
+        public Pokemon GetPokemonTrimToUpper(PokemonDto pokemonCreate)
+        {
+            return GetPokemons().Where(c => c.Name.Trim().ToUpper() == pokemonCreate.Name.TrimEnd().ToUpper())
+                .FirstOrDefault();
+        }
+
         public bool PokemonExists(int pokeId)
         {
             return _context.Pokemons.Any(p => p.Id == pokeId);
@@ -56,12 +86,14 @@ namespace PokemonPreview.Repository
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
-        public bool UpdatePokemon(int ownerId, int categoryId, Pokemon pokemon)
+        public bool UpdatePokemon(Pokemon pokemon)
         {
-            throw new NotImplementedException();
+            _context.Update(pokemon);
+            return Save();
         }
     }
 }

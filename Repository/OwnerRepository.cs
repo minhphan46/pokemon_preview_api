@@ -15,12 +15,14 @@ namespace PokemonPreview.Repository
 
         public bool CreateOwner(Owner owner)
         {
-            throw new NotImplementedException();
+            _context.Add(owner);
+            return Save();
         }
 
         public bool DeleteOwner(Owner owner)
         {
-            throw new NotImplementedException();
+            _context.Remove(owner);
+            return Save();
         }
 
         public Owner GetOwner(int ownerId)
@@ -50,12 +52,14 @@ namespace PokemonPreview.Repository
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool UpdateOwner(Owner owner)
         {
-            throw new NotImplementedException();
+            _context.Update(owner);
+            return Save();
         }
     }
 }

@@ -35,22 +35,26 @@ namespace PokemonPreview.Repository
 
         public bool CreateCategory(Category category)
         {
-            throw new NotImplementedException();
+            _context.Add(category);
+            return Save();
         }
 
         public bool DeleteCategory(Category category)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Save()
-        {
-            throw new NotImplementedException();
+            _context.Remove(category);
+            return Save();
         }
 
         public bool UpdateCategory(Category category)
         {
-            throw new NotImplementedException();
+            _context.Update(category);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved >= 0 ? true : false;
         }
     }
 }

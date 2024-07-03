@@ -22,12 +22,14 @@ namespace PokemonPreview.Repository
 
         public bool CreateCountry(Country country)
         {
-            throw new NotImplementedException();
+            _context.Add(country);
+            return Save();
         }
 
         public bool DeleteCountry(Country country)
         {
-            throw new NotImplementedException();
+            _context.Remove(country);
+            return Save();
         }
 
         public ICollection<Country> GetCountries()
@@ -52,12 +54,14 @@ namespace PokemonPreview.Repository
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool UpdateCountry(Country country)
         {
-            throw new NotImplementedException();
+            _context.Update(country);
+            return Save();
         }
     }
 }
