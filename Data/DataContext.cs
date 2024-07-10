@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PokemonPreview.Models;
 
 namespace PokemonPreview.Data
@@ -22,6 +24,12 @@ namespace PokemonPreview.Data
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Reviewer> Reviewers { get; set; }
+
+        public DbSet<UserModel> UserModels { get; set; }
+
+        //public DbSet<LoginModel> LoginModels { get; set; }
+
+        //public DbSet<RegisterModel> RegisterModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
